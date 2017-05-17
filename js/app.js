@@ -1,6 +1,18 @@
 var posts = [{header: "This is a Title", content: "This is Quality Content Yo"}] // comment out in production
 //var posts = []
 
+// Initialize Firebase
+var config = {
+  apiKey: "AIzaSyCbGiaRWgCIotSwVhbCtjPEjFVERAO4E58",
+  authDomain: "codeday-sample-app.firebaseapp.com",
+  databaseURL: "https://codeday-sample-app.firebaseio.com",
+  projectId: "codeday-sample-app",
+  storageBucket: "codeday-sample-app.appspot.com",
+  messagingSenderId: "222740458003"
+};
+firebase.initializeApp(config);
+
+
 class App extends React.Component {
     render() {
       return(
@@ -22,10 +34,11 @@ class App extends React.Component {
           </div>
           )
        }
-        
+
        shouldComponentUpdate() {
            var newPosts = pullFromServer()
-           if(!newPosts) {
+           // check if length is zero
+           if(newPosts.length == 0) {
                return false
            }
            else {
@@ -59,7 +72,7 @@ class TextForm extends React.Component {
   handleContentChange(event) {
     this.setState({content: event.target.value});
   }
-  
+
   handleHeaderChange(event) {
     this.setState({header: event.target.value});
   }
@@ -67,10 +80,10 @@ class TextForm extends React.Component {
   handleSubmit(event) {
 	posts.push({header: this.state.header, content: this.state.content})
     this.props.handler.forceUpdate()
-    
+
     //firebase
     pushToServer(this.state.header, this.state.content)
-    
+
     event.preventDefault();
   }
 
@@ -94,15 +107,21 @@ class TextForm extends React.Component {
 ReactDOM.render(<App/>, document.getElementById('app'))
 
 function pullFromServer() {
-    /*
-    if data exists 
-        return [posts]
-    else
-        return false
-    */
-    return false
+    var db = firebase.database();
+    var children = []; // get all of the posts from firebase and return them
+    db.ref("posts").once("child_added").then((child)=> {
+      children.push(child);
+    }).catch((error) => {
+      console.log(error.message);
+    });
+    return children;
 }
+
 function pushToServer(h, c) {
     var post = {header: h, content: c}
-    
+    var db = firebase.database();
+
+    db.ref("posts").push().set({
+      post,
+    });
 }
