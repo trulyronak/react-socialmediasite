@@ -2,15 +2,15 @@ var posts = [{header: "This is a Title", content: "This is Quality Content Yo"}]
 //var posts = []
 
 // Initialize Firebase
-var config = {
-  apiKey: "AIzaSyCbGiaRWgCIotSwVhbCtjPEjFVERAO4E58",
-  authDomain: "codeday-sample-app.firebaseapp.com",
-  databaseURL: "https://codeday-sample-app.firebaseio.com",
-  projectId: "codeday-sample-app",
-  storageBucket: "codeday-sample-app.appspot.com",
-  messagingSenderId: "222740458003"
-};
-firebase.initializeApp(config);
+  var config = {
+    apiKey: "AIzaSyCO7VdzYeMqZCt-SiX3DuiQnE5RGb9EAbE",
+    authDomain: "social-media-site-ff45b.firebaseapp.com",
+    databaseURL: "https://social-media-site-ff45b.firebaseio.com",
+    projectId: "social-media-site-ff45b",
+    storageBucket: "social-media-site-ff45b.appspot.com",
+    messagingSenderId: "887103365978"
+  };
+  firebase.initializeApp(config);
 
 
 class App extends React.Component {
