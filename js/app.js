@@ -23,9 +23,10 @@ class App extends React.Component {
 
     componentDidMount() {
       var that = this;
-      fireabse.database().ref("posts").on("child_added", (child) => {
+      firebase.database().ref("posts").on("child_added", (child) => {
         var p = that.state.posts;
-        p.push(child);
+        console.log(child.val());
+        p.push(child.val());
         that.setState({
           posts: p,
         });
@@ -130,6 +131,7 @@ function pushToServer(h, c) {
     var db = firebase.database();
 
     db.ref("posts").push().set({
-      post,
+      content: post.content,
+      header: post.header,
     });
 }
