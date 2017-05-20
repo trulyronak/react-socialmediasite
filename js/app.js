@@ -15,6 +15,7 @@ firebase.initializeApp(config);
 
 class App extends React.Component {
     constructor() {
+      super();
       this.state = {
         posts: [{header: "This is a Title", content: "This is Quality Content Yo"}],
       };
@@ -53,7 +54,6 @@ class App extends React.Component {
           </div>
           )
        }
-
 
    }
 
