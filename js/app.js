@@ -2,18 +2,37 @@ var posts = [{header: "This is a Title", content: "This is Quality Content Yo"}]
 //var posts = []
 
 // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyCO7VdzYeMqZCt-SiX3DuiQnE5RGb9EAbE",
-    authDomain: "social-media-site-ff45b.firebaseapp.com",
-    databaseURL: "https://social-media-site-ff45b.firebaseio.com",
-    projectId: "social-media-site-ff45b",
-    storageBucket: "social-media-site-ff45b.appspot.com",
-    messagingSenderId: "887103365978"
-  };
-  firebase.initializeApp(config);
+var config = {
+  apiKey: "AIzaSyCbGiaRWgCIotSwVhbCtjPEjFVERAO4E58",
+  authDomain: "codeday-sample-app.firebaseapp.com",
+  databaseURL: "https://codeday-sample-app.firebaseio.com",
+  projectId: "codeday-sample-app",
+  storageBucket: "codeday-sample-app.appspot.com",
+  messagingSenderId: "222740458003"
+};
+firebase.initializeApp(config);
 
 
 class App extends React.Component {
+    constructor() {
+      this.state = {
+        posts: [{header: "This is a Title", content: "This is Quality Content Yo"}],
+      };
+    }
+
+    componentDidMount() {
+      var that = this;
+      fireabse.database().ref("posts").on("child_added", (child) => {
+        var p = that.state.posts;
+        p.push(child);
+        that.setState({
+          posts: p,
+        });
+      }, (error) => {
+        console.log("error");
+      });
+    }
+
     render() {
       return(
         <div className="container">
@@ -25,7 +44,7 @@ class App extends React.Component {
             </div>
             <div className="col s6">
               {
-                posts.map(function(p){
+                this.state.posts.map(function(p){
                   return <Post data={p} />
                 })
               }
@@ -35,18 +54,7 @@ class App extends React.Component {
           )
        }
 
-       shouldComponentUpdate() {
-           var newPosts = pullFromServer()
-           // check if length is zero
-           if(newPosts.length == 0) {
-               return false
-           }
-           else {
-               posts = newPosts
-               return true
-           }
-           console.log('checking')
-       }
+
    }
 
 class Post extends React.Component {
@@ -78,7 +86,7 @@ class TextForm extends React.Component {
   }
 
   handleSubmit(event) {
-	posts.push({header: this.state.header, content: this.state.content})
+	  posts.push({header: this.state.header, content: this.state.content})
     this.props.handler.forceUpdate()
 
     //firebase
